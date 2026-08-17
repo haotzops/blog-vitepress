@@ -9,13 +9,6 @@ hero:
   image:
     src: /favicon.png
     alt: emoji
-  actions:
-    - theme: brand
-      text: 进入博客
-      link: /aboutme
-    - theme: alt
-      text: 我的简历
-      link: /myresume
 
 features:
   - title: Telegram
@@ -28,4 +21,3 @@ features:
     details: 来看看我干了什么
     link: http://life.zen1th.vip/
 ---
-

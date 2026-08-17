@@ -1,10 +1,10 @@
 import DefaultTheme from 'vitepress/theme';
 import './style/index.css'
 import 'virtual:group-icons.css' //代码组样式
-// import { NProgress } from 'nprogress-v2/dist/index.js' // 进度条组件
-// import 'nprogress-v2/dist/index.css' // 进度条样式
+import { BProgress } from '@bprogress/core' // 进度条组件
+import '@bprogress/core/css' // 进度条样式
 import { h } from 'vue' // h函数
-import { useData , useRoute } from 'vitepress'
+import { useData , useRoute, inBrowser } from 'vitepress'
 
 import { onMounted, watch, nextTick } from 'vue';
 
@@ -23,10 +23,17 @@ export default {
       )
     }
 
+    // 顶部进度条
+    if (inBrowser) {
+      BProgress.configure({ showSpinner: false })
+      router.onBeforeRouteChange = () => {
+        BProgress.start() // 开始进度条
+      }
+      router.onAfterRouteChanged = () => {
+        BProgress.done() // 停止进度条
+      }
+    }
   },
-  
-  
-  
 };
 
 // 彩虹背景动画样式
@@ -48,13 +55,3 @@ function updateHomePageStyle(value: boolean) {
   }
 }
 
-// if (inBrowser) {
-//       NProgress.configure({ showSpinner: false })
-//       router.onBeforeRouteChange = () => {
-//         NProgress.start() // 开始进度条
-//       }
-//       router.onAfterRouteChanged = () => {
-//          busuanzi.fetch()
-//          NProgress.done() // 停止进度条
-//       }
-// }
