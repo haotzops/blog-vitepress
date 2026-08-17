@@ -5,6 +5,7 @@ import { BProgress } from '@bprogress/core' // 进度条组件
 import '@bprogress/core/css' // 进度条样式
 import { h } from 'vue' // h函数
 import { useData , useRoute, inBrowser } from 'vitepress'
+import CopyOrDownloadAsMarkdownButtons from 'vitepress-plugin-llms/vitepress-components/CopyOrDownloadAsMarkdownButtons.vue'
 
 import { onMounted, watch, nextTick } from 'vue';
 
@@ -14,6 +15,8 @@ let homePageStyle: HTMLStyleElement | undefined
 export default {
   extends: DefaultTheme,
   enhanceApp({app , router }) {
+    // 每页 复制/下载 为 Markdown 按钮
+    app.component('CopyOrDownloadAsMarkdownButtons', CopyOrDownloadAsMarkdownButtons)
     //彩虹动画
     if (typeof window !== 'undefined') {
       watch(
