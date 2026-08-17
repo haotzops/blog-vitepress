@@ -11,13 +11,13 @@ hero:
     alt: emoji
 
 features:
-  - title: Telegram
-    details: 即刻与我联系
-    #link: https://t.me/nnpp
+  - title: 我的简历
+    details: 来看看我的简历
+    link: /resume
   - title: Email
     details: 不妨给我发封电子邮件
     link: mailto:niaopian4@gmail.com
-  - title: 我的简历
-    details: 来看看我的简历
-    link: https://cv.haotzops.com/
+  - title: 关于本站
+    details: 了解本站的建设与所用技术
+    link: /aboutsite
 ---

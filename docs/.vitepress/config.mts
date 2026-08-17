@@ -257,7 +257,7 @@ export default withMermaid({
     footer: {
       message: '本博客框架为 <a href="https://vitepress.dev/zh/">VitePress</a>',
       copyright:
-        'Copyright © 2025-${new Date().getFullYear()} <a href="https://github.com/haotzops">haotzops</a>',
+        'Copyright © 2026 <a href="https://github.com/haotzops">haotzops</a>',
     },
   },
 })
