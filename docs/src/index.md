@@ -13,7 +13,7 @@ hero:
 features:
   - title: 我的简历
     details: 来看看我的简历
-    link: /resume
+    link: https://cv.haotzops.com
   - title: Email
     details: 不妨给我发封电子邮件
     link: mailto:niaopian4@gmail.com
