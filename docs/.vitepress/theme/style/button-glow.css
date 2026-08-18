@@ -1,0 +1,34 @@
+/* button-glow.css —— 首页 hero "随机一篇文章"按钮的动态渐变光边框
+   常驻显示，无流动/旋转：边框呈现一条彩虹渐变，
+   颜色由首页光雾的 rainbow 动画驱动（12s 一圈，见 index.ts updateHomePageStyle），
+   与背景光雾（--vp-home-hero-image-background-image）完全同步变色。 */
+
+/* 只作用于首页 hero 的"随机一篇文章"按钮（theme: alt） */
+.VPButton.alt[href="/random"] {
+  position: relative;
+}
+
+/* 渐变边框环：linear-gradient 仿照背景光雾的同款渐变写法，
+   颜色取自光雾变量 --rainbow-prev / --rainbow-next，随时间整体变色 */
+.VPButton.alt[href="/random"]::before {
+  content: "";
+  position: absolute;
+  inset: -2px; /* 向外扩 2px，正好包住按钮的 1px border */
+  border-radius: inherit;
+  padding: 3px;
+  background: linear-gradient(
+    120deg,
+    var(--rainbow-prev),
+    var(--rainbow-next),
+    var(--rainbow-prev)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}

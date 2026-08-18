@@ -7,6 +7,7 @@ import { h } from 'vue' // h函数
 import { useData , useRoute, inBrowser } from 'vitepress'
 import CopyOrDownloadAsMarkdownButtons from 'vitepress-plugin-llms/vitepress-components/CopyOrDownloadAsMarkdownButtons.vue'
 import RandomArticle from './components/RandomArticle.vue' // 随机一篇文章
+import Layout from './Layout.vue' // 自定义 Layout（切换主题时的 View Transitions 动画）
 
 import { onMounted, watch, nextTick } from 'vue';
 
@@ -15,6 +16,7 @@ let homePageStyle: HTMLStyleElement | undefined
 
 export default {
   extends: DefaultTheme,
+  Layout,
   enhanceApp({app , router }) {
     // 每页 复制/下载 为 Markdown 按钮
     app.component('CopyOrDownloadAsMarkdownButtons', CopyOrDownloadAsMarkdownButtons)

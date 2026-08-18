@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
+import { useRouter, withBase } from 'vitepress'
 
 const router = useRouter()
 
@@ -31,15 +31,25 @@ const articles = Object.keys(modules)
   .map(toRoute)
   .filter((p) => p && !EXCLUDE.has(p))
 
+let navigated = false // 防止同一次挂载内重复跳转
+
 function pickRandom() {
   return articles[Math.floor(Math.random() * articles.length)]
 }
 
 onMounted(() => {
+  if (navigated) return
   const target = pickRandom()
-  if (target) {
-    router.go(target)
-  }
+  if (!target) return
+  navigated = true
+
+  // VitePress 的 router 只暴露 go()，而 go() 内部是 history.pushState，
+  // 会让 /random 残留在历史栈中：按“返回”会回到 /random 并重新随机，永远回不到来源页。
+  // 这里先用 replaceState 把当前 /random 条目替换为目标文章（不进栈），
+  // 再调用 router.go：此时目标地址 === 当前地址，go() 会跳过 pushState，只加载页面。
+  const href = withBase(target)
+  history.replaceState({ scrollPosition: window.scrollY }, '', href)
+  router.go(href)
 })
 </script>
 
