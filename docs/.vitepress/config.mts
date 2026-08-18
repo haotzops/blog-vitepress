@@ -5,11 +5,10 @@ import {
 import llmstxt, {
   copyOrDownloadAsMarkdownButtons,
 } from "vitepress-plugin-llms";
-import { withMermaid } from "vitepress-plugin-mermaid";
 import { nav, sidebar } from "./configs/index.ts";
 
 // https://vitepress.dev/reference/site-config
-export default withMermaid({
+export default {
   // 标题（浏览器后缀）
   title: "haotzops",
   // 描述
@@ -265,4 +264,4 @@ export default withMermaid({
         'Copyright © 2026 <a href="https://github.com/haotzops">haotzops</a>',
     },
   },
-});
+};

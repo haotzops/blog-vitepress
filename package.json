@@ -1,10 +1,8 @@
 {
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",
-    "mermaid": "^11.16.1",
     "vitepress": "^2.0.0-alpha.19",
-    "vitepress-plugin-llms": "^1.13.5",
-    "vitepress-plugin-mermaid": "^2.0.17"
+    "vitepress-plugin-llms": "^1.13.5"
   },
   "type": "module",
   "scripts": {
