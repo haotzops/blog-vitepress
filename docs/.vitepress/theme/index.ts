@@ -56,7 +56,7 @@ export default {
         document.documentElement.classList.add('page-leaving-done')
         document.documentElement.classList.remove('page-leaving')
       }
-      router.onAfterRouteChanged = async () => {
+      router.onAfterRouteChange = async () => {
         BProgress.done() // 停止进度条
 
         // 新内容上浮淡入（含正文子元素依次延迟）

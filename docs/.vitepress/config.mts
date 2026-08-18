@@ -6,7 +6,7 @@ import llmstxt, {
   copyOrDownloadAsMarkdownButtons,
 } from "vitepress-plugin-llms";
 import { withMermaid } from "vitepress-plugin-mermaid";
-import { nav, sidebar } from "./configs";
+import { nav, sidebar } from "./configs/index.ts";
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid({
@@ -25,6 +25,8 @@ export default withMermaid({
   // markdown显示行数
   markdown: {
     lineNumbers: true,
+    // 单个换行符渲染为 <br>（GitHub 风格），关闭标准 Markdown 的软换行合并
+    breaks: true,
     image: {
       // 开启图片懒加载
       lazyLoading: true,

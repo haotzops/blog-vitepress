@@ -1,0 +1,23 @@
+/* .vitepress\theme\style\search-bar.css
+   导航栏搜索框（VitePress 2.0 Algolia DocSearch）加长：
+   - 2.0 起按钮类名由 .DocSearch-Button 改为 .VPNavBarSearchButton，
+     默认仅按内容宽度排布，这里让它撑满剩余空间并固定最小/最大长度
+   - 快捷键提示靠右、边框常显 */
+
+@media (min-width: 768px) {
+  .VPNavBarSearchButton {
+    /* 撑满导航栏剩余空间（Ask AI 按钮左侧），超宽屏封顶 */
+    flex-grow: 1;
+    /* 保证一定长度，不被导航菜单压缩成小图标（在原 220/340 基础上 +80%） */
+    min-width: 396px;
+    max-width: 612px;
+    /* 边框常显（默认无边框，只有 hover 才显示） */
+    border: 1px solid var(--vp-c-divider);
+    /* 快捷键提示 ⌘K 靠右对齐，不与占位文字挤在一起 */
+    justify-content: space-between;
+  }
+
+  .VPNavBarSearchButton:hover {
+    border-color: var(--vp-c-brand-1);
+  }
+}
