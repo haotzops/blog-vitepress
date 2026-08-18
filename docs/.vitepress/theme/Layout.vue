@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
+import TechOrbit from './components/TechOrbit.vue' // 首页 Hero Logo hover 彩蛋（技术栈轨道）
 import { nextTick, provide } from 'vue'
 
 const { isDark } = useData()
@@ -66,10 +67,20 @@ provide('toggle-appearance', async (event?: MouseEvent | { clientX?: number; cli
 </script>
 
 <template>
-  <DefaultTheme.Layout />
+  <DefaultTheme.Layout>
+    <template #home-hero-image>
+      <TechOrbit />
+    </template>
+  </DefaultTheme.Layout>
 </template>
 
 <style>
+/* TechOrbit 气泡轨道需要溢出可见（配合 #home-hero-image 插槽替换默认 Hero 图片） */
+.VPHero .image,
+.VPHero .image-container {
+  overflow: visible;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
