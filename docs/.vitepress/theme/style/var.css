@@ -1,4 +1,10 @@
 /* var.css */
+/* 滚动条常显（fuwari 也是滚动条常显）：
+   页面切换时视口宽度不因滚动条出现/消失而变化，避免画面横向弹跳 */
+html {
+  overflow-y: scroll;
+}
+
 :root {
   --vp-c-brand-1: #18794e;
   --vp-c-brand-2: #299764;

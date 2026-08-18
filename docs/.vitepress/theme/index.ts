@@ -39,14 +39,39 @@ export default {
       )
     }
 
-    // 顶部进度条
+    // 顶部进度条 + 页面切换动效（移植 fuwari 的 Swup 过渡：
+    // 旧内容淡出下移 → 新内容上浮淡入，正文元素依次延迟浮现）
     if (inBrowser) {
       BProgress.configure({ showSpinner: false })
-      router.onBeforeRouteChange = () => {
+      const PAGE_LEAVE_MS = 200 // 淡出动画时长（fuwari: 200ms）
+      const PAGE_ENTER_MS = 300 // 入场动画时长（fuwari: 300ms）
+
+      router.onBeforeRouteChange = async () => {
         BProgress.start() // 开始进度条
+
+        // 旧页面内容淡出 + 下移；await 动画结束再继续导航
+        document.documentElement.classList.add('page-leaving')
+        await new Promise((r) => setTimeout(r, PAGE_LEAVE_MS + 20))
+        // 保持隐藏，等待新页面替换（防止旧内容闪现）
+        document.documentElement.classList.add('page-leaving-done')
+        document.documentElement.classList.remove('page-leaving')
       }
-      router.onAfterRouteChanged = () => {
+      router.onAfterRouteChanged = async () => {
         BProgress.done() // 停止进度条
+
+        // 新内容上浮淡入（含正文子元素依次延迟）
+        const html = document.documentElement
+        // 先停掉退出动画、保持隐藏，直到新 DOM 渲染完成；
+        // 再在同一帧内恢复显示并加 page-entering，避免新内容“闪一帧”
+        html.classList.remove('page-leaving')
+        html.classList.add('page-leaving-done')
+        await nextTick() // 等待新页面 DOM 渲染完成
+        html.classList.remove('page-leaving-done')
+        html.classList.add('page-entering')
+        window.setTimeout(
+          () => html.classList.remove('page-entering'),
+          PAGE_ENTER_MS + 50,
+        )
       }
     }
   },

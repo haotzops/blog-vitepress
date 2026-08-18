@@ -1,0 +1,111 @@
+/* ============================================================
+   页面切换动效（移植自 fuwari: src/styles/transition.css）
+   fuwari 用 Swup 实现：旧内容淡出下移 → 新内容上浮淡入，
+   正文元素依次延迟浮现。VitePress 1.6 无内置 View Transitions，
+   这里用路由钩子 + html class 复刻同样的观感：
+   - html.page-leaving       旧内容淡出 + 下移 (200ms)
+   - html.page-leaving-done  保持隐藏，等待新页面替换
+   - html.page-entering      新内容从下方上浮淡入 (300ms)
+   ============================================================ */
+
+/* ---------- 退出动画：旧页面内容淡出 + 下移 ----------
+   fuwari: html.is-animating .transition-swup-fade → opacity-0 translate-y-4
+   注意：右侧 TOC 面板（.aside-container/.aside-curtain）是 position: fixed，
+   若对包含它的父级（.VPDoc）做 transform，会改变 fixed 的 containing block，
+   导致 TOC 面板跳位、横向溢出（画面向左弹 + 闪现滚动条）。
+   因此正文列（.content）做位移淡出，TOC 面板（.aside）仅做透明度淡出。 */
+@keyframes vp-page-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@keyframes vp-page-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* 正文列：淡出 + 下移（内部无 fixed，transform 安全） */
+html.page-leaving .VPDoc .content,
+html.page-leaving .VPHome,
+html.page-leaving .VPPage,
+html.page-leaving .NotFound {
+  animation: vp-page-out 200ms ease forwards;
+}
+
+/* 右侧 TOC 面板：原地淡出（fixed 元素，仅透明度，避免定位跳变） */
+html.page-leaving .VPDoc .aside {
+  animation: vp-page-fade 200ms ease forwards;
+}
+
+/* 淡出完成后保持隐藏，等待新页面替换（防止旧内容闪现） */
+html.page-leaving-done .VPDoc,
+html.page-leaving-done .VPHome,
+html.page-leaving-done .VPPage,
+html.page-leaving-done .NotFound {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ---------- 入场动画：新内容 fade-in-up ----------
+   fuwari: .onload-animation → 300ms fade-in-up（translateY(2rem) → 0） */
+@keyframes vp-page-in {
+  from {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 内容主体整体上浮淡入（对应 fuwari #content-wrapper） */
+html.page-entering .VPDoc .content-container,
+html.page-entering .VPHome,
+html.page-entering .VPPage,
+html.page-entering .NotFound {
+  opacity: 0;
+  animation: vp-page-in 300ms ease forwards;
+}
+
+/* 正文元素依次延迟浮现（对应 fuwari #post-container 子元素延迟）
+   基础 opacity: 0 保证延迟期间隐藏，动画 fill-mode: forwards 保持最终态 */
+html.page-entering .vp-doc > * {
+  opacity: 0;
+  animation: vp-page-in 300ms ease forwards;
+}
+html.page-entering .vp-doc > *:nth-child(1) { animation-delay: 0ms; }
+html.page-entering .vp-doc > *:nth-child(2) { animation-delay: 50ms; }
+html.page-entering .vp-doc > *:nth-child(3) { animation-delay: 100ms; }
+html.page-entering .vp-doc > *:nth-child(4) { animation-delay: 175ms; }
+html.page-entering .vp-doc > *:nth-child(5) { animation-delay: 250ms; }
+html.page-entering .vp-doc > *:nth-child(6) { animation-delay: 325ms; }
+
+/* 导航栏/侧边栏在 SPA 切换中不重挂载，保持静态即可 */
+
+/* ---------- 弱动效偏好：禁用切换动画 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html.page-leaving .VPDoc .content,
+  html.page-leaving .VPDoc .aside,
+  html.page-leaving .VPHome,
+  html.page-leaving .VPPage,
+  html.page-leaving .NotFound,
+  html.page-entering .VPDoc .content-container,
+  html.page-entering .VPHome,
+  html.page-entering .VPPage,
+  html.page-entering .NotFound,
+  html.page-entering .vp-doc > * {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
