@@ -235,7 +235,7 @@ function handlePointerLeave() {
                     '--bubble-size': `${stack.size}px`,
                   }"
                 >
-                  <template v-if="stack.iconAlt">
+                  <template v-if="hovered && stack.iconAlt">
                     <img
                       :src="stack.iconAlt"
                       class="icon-theme-dark"
@@ -250,7 +250,7 @@ function handlePointerLeave() {
                     >
                   </template>
                   <img
-                    v-else
+                    v-else-if="hovered"
                     :src="stack.icon"
                     class="icon-single"
                     :alt="stack.name"
@@ -269,11 +269,21 @@ function handlePointerLeave() {
       @pointerenter="handlePointerEnter"
       @pointerleave="handlePointerLeave"
     >
-      <img
-        src="/favicon.png"
-        alt="haotzops"
-        draggable="false"
-      >
+      <picture>
+        <source
+          media="(max-width: 639px)"
+          srcset="/hero-logo-136.webp"
+          type="image/webp"
+        >
+        <img
+          src="/hero-logo.webp"
+          alt="haotzops"
+          width="180"
+          height="180"
+          fetchpriority="high"
+          draggable="false"
+        >
+      </picture>
     </div>
   </div>
 </template>

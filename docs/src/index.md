@@ -7,7 +7,7 @@ hero:
   text: "学海无涯，学无止境"
   tagline: 用一个网站了解我所有
   image:
-    src: /favicon.png
+    src: /hero-logo.webp
     alt: emoji
   actions:
     - theme: brand

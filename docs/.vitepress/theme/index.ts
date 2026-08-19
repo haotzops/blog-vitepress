@@ -4,13 +4,12 @@ import 'virtual:group-icons.css' //代码组样式
 import { BProgress } from '@bprogress/core' // 进度条组件
 import '@bprogress/core/css' // 进度条样式
 import { h } from 'vue' // h函数
-import { useData , useRoute, inBrowser } from 'vitepress'
+import { inBrowser } from 'vitepress'
 import CopyOrDownloadAsMarkdownButtons from 'vitepress-plugin-llms/vitepress-components/CopyOrDownloadAsMarkdownButtons.vue'
-import RandomArticle from './components/RandomArticle.vue' // 随机一篇文章
 import Layout from './Layout.vue' // 自定义 Layout（切换主题时的 View Transitions 动画）
-import confetti from 'canvas-confetti' // 纸屑特效
 
-import { onMounted, watch, nextTick } from 'vue';
+import { nextTick, watch } from 'vue';
+import type confetti from 'canvas-confetti'
 
 // 彩虹背景动画样式
 let homePageStyle: HTMLStyleElement | undefined
@@ -21,7 +20,6 @@ export default {
   enhanceApp({app , router }) {
     // 每页 复制/下载 为 Markdown 按钮
     app.component('CopyOrDownloadAsMarkdownButtons', CopyOrDownloadAsMarkdownButtons)
-    app.component('RandomArticle', RandomArticle) // 随机一篇文章
     // 首页「随机一篇文章」按钮：点击时绽放 Custom Shapes 形状纸屑
     if (inBrowser) {
       watch(
@@ -94,8 +92,12 @@ function bindRandomConfetti(tries = 0) {
 }
 
 // canvas-confetti Custom Shapes：南瓜/圣诞树/爱心 SVG 形状纸屑，从顶部喷洒落下
-let customShapes: ReturnType<typeof confetti.shapeFromPath>[] | undefined
-function fireShapesConfetti() {
+type Confetti = typeof confetti
+
+let customShapes: ReturnType<Confetti['shapeFromPath']>[] | undefined
+async function fireShapesConfetti() {
+  const { default: confetti } = await import('canvas-confetti')
+
   // SVG path 解析开销较大，首次解析后缓存复用
   if (!customShapes) {
     // 南瓜，https://thenounproject.com/icon/pumpkin-5253388/

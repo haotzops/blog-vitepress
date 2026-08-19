@@ -67,7 +67,7 @@ export default {
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     // 左上角logo
-    logo: "/favicon.png",
+    logo: "/hero-logo.webp",
     externalLinkIcon: true,
     // 首页右上角导航栏
     nav,
