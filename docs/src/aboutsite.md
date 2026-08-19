@@ -1,7 +1,7 @@
 # 关于本站
 
 ## DNS 解析
-本站使用 Cloudflare DNS 服务，Vercel 部署，国内访问较慢一般是受 Free Plan 的 DNS 线路影响。
+本站使用 Cloudflare DNS 服务，Vercel 部署，国内访问首次打开较慢一般是受 Free Plan 的 DNS 线路影响。
 
 ## 站点美化
 本站使用 VitePress 构建，主题为默认主题，首次搭建在2025年。
