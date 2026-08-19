@@ -235,7 +235,7 @@ function handlePointerLeave() {
                     '--bubble-size': `${stack.size}px`,
                   }"
                 >
-                  <template v-if="hovered && stack.iconAlt">
+                  <template v-if="stack.iconAlt">
                     <img
                       :src="stack.iconAlt"
                       class="icon-theme-dark"
@@ -250,7 +250,7 @@ function handlePointerLeave() {
                     >
                   </template>
                   <img
-                    v-else-if="hovered"
+                    v-else
                     :src="stack.icon"
                     class="icon-single"
                     :alt="stack.name"
